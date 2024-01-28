@@ -7,6 +7,7 @@ let operationsString = "+-*/";
 let isFloat = false;
 const buttons = document.querySelectorAll("button");
 const input = document.querySelector("input");
+const decimalButton = document.querySelector(".decimal-button");
 buttons.forEach((button) => {
         button.addEventListener("mouseover",() => button.style.filter = "brightness(0.75)");
         button.addEventListener("mouseout",() => button.style.filter = "brightness(1)");
@@ -31,6 +32,7 @@ allClear.addEventListener("click",() => {
         count = 0;
         input.value = "";
         isFloat = false;
+        decimalButton.disabled = false;
 })
 
 const operations = document.querySelectorAll(".operation");
@@ -60,9 +62,10 @@ equal.addEventListener("click",() => {
                         result = operate(firstNumber,mathematicalOperation,secondNumber);
                         input.value = result;
                 }
-                
-                
         }
+
+        decimalButton.disabled = false;
+
         
         
 })
@@ -84,15 +87,17 @@ backButton.addEventListener("click",() => {
         }
 })
 
-const decimalButton = document.querySelector(".decimal-button");
 decimalButton.addEventListener("click",() => {
         if (count == 0) {
                 firstNumber += decimalButton.textContent;
+                
         } else {
                 secondNumber += decimalButton.textContent;
         }
+        decimalButton.disabled = true;
         input.value += decimalButton.textContent;
         isFloat = true;
+       
 })
 
 
@@ -138,12 +143,14 @@ function executeOperation(content) {
         if (count == 0) {
                 mathematicalOperation = content;
                 count += 1;
+                decimalButton.disabled = false;
         } else {
                 let result = operate(firstNumber,mathematicalOperation,secondNumber);
                 firstNumber = result;
                 input.value = result;
                 secondNumber = "";
                 mathematicalOperation = content;
+                decimalButton.disabled = false;
         }
         input.value += mathematicalOperation;
 }
